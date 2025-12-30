@@ -1,50 +1,55 @@
-# Welcome to your Expo app 👋
+# EduPost (Mobile)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Expo (React Native) app for the FIAP Tech Challenge.
 
-## Get started
+This repository also includes the backend API inside the folder `fiap_tech_challenge_api/`.
 
-1. Install dependencies
+## Prerequisites
 
-   ```bash
-   npm install
-   ```
+- Node.js + npm
+- Docker + Docker Compose (recommended for the backend database)
 
-2. Start the app
+## 1) Start the backend locally
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+From the backend folder:
 
 ```bash
-npm run reset-project
+cd fiap_tech_challenge_api
+cp .env.example .env
+docker compose up -d
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Swagger UI:
 
-## Learn more
+```text
+http://localhost:3000/api
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## 2) Configure the mobile app to point to the backend
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+The mobile app reads the API base URL from `EXPO_PUBLIC_API_URL`.
 
-## Join the community
+Create a local env file (do not commit it):
 
-Join our community of developers creating universal apps.
+```bash
+cp .env.example .env
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Set `EXPO_PUBLIC_API_URL` depending on how you run the app:
+
+- iOS Simulator: `http://localhost:3000`
+- Android Emulator: `http://10.0.2.2:3000`
+- Physical device: `http://<YOUR_LAN_IP>:3000` (same Wi‑Fi)
+
+After changing env vars, restart Expo.
+
+## 3) Run the mobile app
+
+```bash
+npm install
+npx expo start
+```
+
+## Notes
+
+- If you run on the web (`expo start --web`), the browser enforces CORS. Prefer iOS/Android simulator/device for local backend testing.
